@@ -1,0 +1,29 @@
+{
+  "name": "redvike-test-work",
+  "version": "1.0.0",
+  "scripts": {
+    "e2e:debug": "playwright test --debug",
+    "e2e:run": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mi4i0/redvike-test-work.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@faker-js/faker": "8.1.0",
+    "@playwright/test": "1.38.1",
+    "@types/node": "20.7.1",
+    "@typescript-eslint/eslint-plugin": "6.7.3",
+    "eslint": "8.50.0",
+    "eslint-config-standard-with-typescript": "39.1.0",
+    "eslint-plugin-import": "2.28.1",
+    "eslint-plugin-n": "16.1.0",
+    "eslint-plugin-promise": "6.1.1",
+    "typescript": "5.2.2"
+  },
+  "dependencies": {
+    "dotenv": "16.3.1"
+  }
+}
