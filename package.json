@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "e2e:debug": "playwright test --debug",
+    "e2e:run:ui": "npx playwright test --ui",
     "e2e:run": "playwright test"
   },
   "repository": {
