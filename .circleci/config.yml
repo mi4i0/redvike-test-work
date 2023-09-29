@@ -1,0 +1,30 @@
+version: 2.1
+
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/orb-intro/
+orbs:
+  node: circleci/node@5.1.0
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/configuration-reference/#workflows
+jobs:
+  build:
+    executor:
+      name: node/default
+      tag: '18.16.1'
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm   # Here we are using a step provided by the node orb to install our packages. This can be replaced with a `run` step and a custom command if you prefer.
+      - run:
+          name: Install Playwright Browsers
+          command: npx playwright install
+      - run:
+          name: Run Playwright Tests
+          command: npm run e2e:run  # Replace with your actual Playwright test command.
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
