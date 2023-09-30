@@ -4,15 +4,16 @@ import { AppPage } from '../abstractClass';
 export class SignUp extends AppPage {
   public pagePath: string = '/';
 
+  firstNameInput: Locator = this.page.locator('[name="first_name"]');
+  lastNameInput: Locator = this.page.locator('[name="last_name"]');
+  emailInput: Locator = this.page.locator('[name="email"]');
+  passwordInput: Locator = this.page.locator('[name="password"]');
+  confirmPasswordInput: Locator = this.page.locator('[name="confirm_password"]');
   private formHeading: Locator = this.page.getByRole('heading', {name: 'Application Form'});
-  private firstNameInput: Locator = this.page.locator('[name="first_name"]');
-  private lastNameInput: Locator = this.page.locator('[name="last_name"]');
-  private emailInput: Locator = this.page.locator('[name="email"]');
-  private passwordInput: Locator = this.page.locator('[name="password"]');
-  private confirmPasswordInput: Locator = this.page.locator('[name="confirm_password"]');
   private avatarInput: Locator = this.page.locator('[name="avatar"]');
   private sliderTrack: Locator = this.page.locator('#slider-track');
   private submitButton: Locator = this.page.locator('[value="Submit"]');
+  private submittingFormErrorItem: Locator = this.page.locator('ul>li');
 
   async expectLoaded() {
     await expect(this.formHeading, 'Expected SignUp page to be opened').toBeVisible();
@@ -65,5 +66,31 @@ export class SignUp extends AppPage {
 
   async clickSubmitButton(isForce: boolean = false): Promise<void> {
     await this.submitButton.click({force: isForce});
+  }
+
+  async validateFormInputErrorMessage(element: Locator, expectedErrorMessages: string): Promise<void> {
+    const validationMessage: string = await element.evaluate((element: HTMLElement) => {
+      const input: HTMLInputElement = element as HTMLInputElement;
+      return input.validationMessage;
+    });
+
+    expect(validationMessage).toContain(expectedErrorMessages);
+  }
+
+  async validateFormSubmittingErrorMessage(text: string): Promise<void> {
+    await expect(this.submittingFormErrorItem).toContainText(text);
+  }
+
+  async fillFormWithData({firstName, lastName, email, password}: {
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+  }): Promise<void> {
+    await this.fillFirstNameInput(firstName);
+    await this.fillLastNameInput(lastName);
+    await this.fillEmailInput(email);
+    await this.fillPasswordInput(password);
+    await this.fillConfirmPasswordInput(password);
   }
 }
